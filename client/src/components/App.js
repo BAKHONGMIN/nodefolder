@@ -1,30 +1,30 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import { Route, Routes } from "react-router-dom";
 
 // css
-import '../css/new.css';
+import "../css/new.css";
 
 // header
-import HeaderAdmin from './Header/Header admin';
+import HeaderAdmin from "./Header/Header admin";
 
 // footer
-import Footer from './Footer/Footer';
+import Footer from "./Footer/Footer";
 
 // login
-import LoginForm from './LoginForm';
+import LoginForm from "./LoginForm";
 
-import ReactProxy from './R109_reactProxy';
+import SoftwareList from "./SoftwareToolsManage/SoftwareList";
 
 class App extends Component {
-  render () {
+  render() {
     return (
       <div className="App">
-        <HeaderAdmin/> 
+        <HeaderAdmin />
         <Routes>
-          <Route exact path='/' element={<LoginForm />} />
-          <Route exact path='/reactProxy' element={<ReactProxy />} />
+          <Route exact path="/" element={<LoginForm />} />
+          <Route exact path="/SoftwareList" element={<SoftwareList />} />
         </Routes>
-        <Footer/>
+        <Footer />
       </div>
     );
   }
