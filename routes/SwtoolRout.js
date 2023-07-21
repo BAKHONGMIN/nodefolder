@@ -12,14 +12,14 @@ router.post("/", (req, res, next) => {
     //Swtool 리스트 조회
     try {
       //Mysql Api 모듈(CRUD)
-      var dbconnect_Module = require("./dbconnect_Module");
+      var dbconnect_Module1 = require("./dbconnect_Module1");
 
       //MySql 쿼리 호출 정보 입력
       req.body.mapper = "SwToolsMapper"; //mybatis xml 파일명
       req.body.crud = "select"; //select, insert, update, delete 중에 입력
       req.body.mapper_id = "selectSwToolsList";
 
-      router.use("/", dbconnect_Module);
+      router.use("/", dbconnect_Module1);
       next("route");
     } catch (error) {
       console.log("Module > dbconnect error : " + error);
