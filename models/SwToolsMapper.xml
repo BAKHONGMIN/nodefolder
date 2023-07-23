@@ -16,4 +16,46 @@
       FROM react.react_swtool
       ORDER BY update_date DESC
   </select>
+
+  <insert id="insertSwToolsInfo">
+    INSERT INTO react.react_swtool(
+      swt_code,
+      swt_toolname,
+      swt_function,
+      swt_comments,
+      swt_demo_site,
+      swt_github_url,
+      <if text="is_LabelImg != null && is_LabelImg != '' ">
+        swt_imagepath,
+      </if>
+      <if text="is_MainImg != null && is_MainImg != '' ">
+        swt_big_imgpath,
+      </if>
+      <if text="is_MenualName != null && is_MenualName != '' ">
+        swt_manual_path,
+      </if>
+      reg_date,
+      reg_user,
+      update_date,
+      update_user
+    )
+    VALUES(
+      CONCAT('USW', DATE_FORMAT(now(), '%Y%m%d%H%i%s')),
+      #{is_Swt_toolname},
+      #{is_Swt_function},
+      #{is_Comments},
+      #{is_Swt_demo_site},
+      #{is_Citurl},
+      <if test="is_LabelImg != null && is_LabelImg != '' ">
+        #{is_LabelImg},
+      </if>
+      <if test="is_MainImg != null && is_MainImg != '' ">
+        #{is_MainImg},
+      </if>
+      DATE_FORMAT(now(), '%Y%m%d%H%i%s'),
+      #{is_Email},
+      DATE_FORMAT(now(), '%Y%m%d%H%i%s'),
+      #{is_Email}
+    )
+  </insert>
 </mapper>
