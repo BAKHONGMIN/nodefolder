@@ -15,6 +15,8 @@ import LoginForm from "./LoginForm";
 
 import SoftwareList from "./SoftwareToolsManage/SoftwareList";
 
+import SoftwareView from "./SoftwareToolsManage/SoftwareView";
+
 class App extends Component {
   render() {
     return (
@@ -22,7 +24,8 @@ class App extends Component {
         <HeaderAdmin />
         <Routes>
           <Route exact path="/" element={<LoginForm />} />
-          <Route exact path="/SoftwareList" element={<SoftwareList />} />
+          <Route path="/SoftwareList" element={<SoftwareList />} />
+          <Route path="/SoftwareView" element={<SoftwareView />} />
         </Routes>
         <Footer />
       </div>
