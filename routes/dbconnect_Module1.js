@@ -5,13 +5,15 @@ const bodyParser = require("body-parser");
 
 router.use(bodyParser.json());
 
-//mysql 서버 접속 정보
-const connection = mysql.createConnection({
-  host: ".csg3m5of23ey.us-east-2.rds.amazonaws.com",
+// Connection Pool 세팅
+const pool = mysql.createPool({
+  connectionLimit: 66,
+  waitForConnections: true,
+  host: "react200.csg3m5of23ey.us-east-2.rds.amazonaws.com",
   port: "3306",
   database: "react",
   user: "admin",
-  password: ""
+  password: "workbench",
 });
 
 router.post("/", (req, res) => {
@@ -38,17 +40,29 @@ router.post("/", (req, res) => {
   );
   console.log(query + "\n");
 
-  connection.query(query, function (error, results) {
-    if (error) {
-      console.log("db error************* : " + error);
-    }
-    var time2 = new Date();
-    console.log("## " + time2 + " ##");
-    console.log("## RESULT DATA LIST ## : \n", results);
-    string = JSON.stringify(results);
-    var json = JSON.parse(string);
-    res.send({ json });
-    console.log("========= Node Mybatis Query Log End =========\n");
+  pool.getConnection(function (err, connection) {
+    connection.query(query, function (error, results) {
+      if (error) {
+        console.log("db error************* : " + error);
+      }
+      var time2 = new Date();
+      console.log("## " + time2 + " ##");
+      console.log("## RESULT DATA LIST ## : \n", results);
+      if (results != undefined) {
+        string = JSON.stringify(results);
+        var json = JSON.parse(string);
+        if (req.body.crud == "select") {
+          res.send({ json });
+        } else {
+          res.send("succ");
+        }
+      } else {
+        res.send("error");
+      }
+
+      connection.release();
+      console.log("========= Node Mybatis Query Log End =========\n");
+    });
   });
 });
 
