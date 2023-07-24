@@ -1,7 +1,7 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import $ from "jquery";
 
 export default function SoftwareView() {
   const toolName = useRef("");
@@ -10,98 +10,104 @@ export default function SoftwareView() {
   const comments = useRef("");
   const functions = useRef("");
 
+  const history = useNavigate();
+
   const submitClick = async (type, e) => {
-    const fnValidate = (e) => {
-      if (toolName.current.value === "") {
-        document
-          .getElementById("is_Swt_toolname")
-          .classList.add("border_validate_err");
-        alert("롤 이름을 다시 확인해주세요.");
-        return false;
-      } else {
-        document
-          .getElementById("is_Swt_toolname")
-          .classList.remove("border_validate_err");
-      }
+    if (toolName.current.value === "") {
+      document
+        .getElementById("swt_toolname")
+        .classList.add("border_validate_err");
+      alert("롤 이름을 다시 확인해주세요.");
+      return false;
+    } else {
+      document
+        .getElementById("swt_toolname")
+        .classList.remove("border_validate_err");
+    }
 
-      if (demoSite.current.value === "") {
-        document
-          .getElementById("is_Swt_demo_site")
-          .classList.add("border_validate_err");
-        alert("데모 URL을 다시 확인해주세요.");
-        return false;
-      } else {
-        document
-          .getElementById("is_Swt_demo_site")
-          .classList.remove("border_validate_err");
-      }
+    if (demoSite.current.value === "") {
+      document
+        .getElementById("swt_demo_site")
+        .classList.add("border_validate_err");
+      alert("데모 URL을 다시 확인해주세요.");
+      return false;
+    } else {
+      document
+        .getElementById("swt_demo_site")
+        .classList.remove("border_validate_err");
+    }
 
-      if (gitUrl.current.value === "") {
-        document
-          .getElementById("is_Giturl")
-          .classList.add("border_validate_err");
-        alert("Github URL을 다시 확인해주세요.");
-        return false;
-      } else {
-        document
-          .getElementById("is_Giturl")
-          .classList.remove("border_validate_err");
-      }
+    if (gitUrl.current.value === "") {
+      document
+        .getElementById("swt_github_url")
+        .classList.add("border_validate_err");
+      alert("Github URL을 다시 확인해주세요.");
+      return false;
+    } else {
+      document
+        .getElementById("swt_github_url")
+        .classList.remove("border_validate_err");
+    }
 
-      if (comments.current.value === "") {
-        document
-          .getElementById("is_Comments")
-          .classList.add("border_validate_err");
-        alert("설명을 다시 확인해주세요.");
-        return false;
-      } else {
-        document
-          .getElementById("is_Comments")
-          .classList.remove("border_validate_err");
-      }
+    if (comments.current.value === "") {
+      document
+        .getElementById("swt_comments")
+        .classList.add("border_validate_err");
+      alert("설명을 다시 확인해주세요.");
+      return false;
+    } else {
+      document
+        .getElementById("swt_comments")
+        .classList.remove("border_validate_err");
+    }
 
-      if (functions.current.value === "") {
-        document
-          .getElementById("is_Swt_function")
-          .classList.add("border_validate_err");
-        alert("상세기능을 다시 확인해주세요.");
-        return false;
-      } else {
-        document
-          .getElementById("is_Swt_function")
-          .classList.remove("border_validate_err");
-      }
-    };
+    if (functions.current.value === "") {
+      document
+        .getElementById("swt_function")
+        .classList.add("border_validate_err");
+      alert("상세기능을 다시 확인해주세요.");
+      return false;
+    } else {
+      document
+        .getElementById("swt_function")
+        .classList.remove("border_validate_err");
+    }
 
-    let jsonstr = document.querySelectorAll("form[name = 'frm']").serialize();
+    let jsonstr = $("form[name='frm']").serialize();
+
     jsonstr = decodeURIComponent(jsonstr);
-    let Json_form = JSON.stringify(jsonstr).replace(/\\"/gi, "");
+    // eslint-disable-next-line no-useless-escape
+    let Json_form = JSON.stringify(jsonstr).replace(/\"/gi, "");
     Json_form =
-      '{"' + Json_form.replace(/\\&/g, '","').replace(/=/gi, '":"') + '"}';
+      // eslint-disable-next-line no-useless-escape
+      '{"' + Json_form.replace(/\&/g, '","').replace(/=/gi, '":"') + '"}';
 
     try {
       const response = await fetch("/api/Swtool?type=" + type, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/json;charset=utf-8"
         },
-        body: Json_form,
+        body: Json_form
       });
 
       const body = await response.text();
+
       if (body === "succ") {
         if (type === "save") {
           sweetalertSucc("Software Tools 등록이 완료되었습니다.", false);
         }
-        setTimeout(function () {
+        const timer = setTimeout(function () {
           // Replace this with appropriate navigation logic
-          console.log("Redirecting to /SoftwareList");
+          history("/SoftwareList");
         }, 1500);
+
+        return () => clearTimeout(timer);
       } else {
         alert("작업중 오류가 발생하였습니다.");
       }
     } catch (error) {
-      alert("작업중 오류가 발생하였습니다.");
+      alert(error + "작업중 오류가 발생하였습니다.");
     }
   };
 
@@ -111,7 +117,7 @@ export default function SoftwareView() {
       icon: "success",
       title: title,
       showConfirmButton: showConfirmButton,
-      timer: 1000,
+      timer: 1000
     });
   };
 
@@ -129,8 +135,12 @@ export default function SoftwareView() {
             onSubmit={(e) => submitClick("save", e)}
             method="post"
           >
-            <input id="is_Swtcode" type="hidden" name="is_Swtcode" />
-            <input id="is_Email" type="hidden" name="is_Email" value="guest" />
+            <input
+              id="swt_code"
+              // type="hidden"
+              type="texts"
+              name="swt_code"
+            />
             <article className="res_w">
               <p className="ment" style={{ textAlign: "right" }}>
                 <span className="red">(*)</span>표시는 필수입력사항 입니다.
@@ -140,7 +150,7 @@ export default function SoftwareView() {
                   <tbody>
                     <tr>
                       <th>
-                        <label htmlFor="is_Swt_toolname">
+                        <label htmlFor="swt_toolname">
                           툴 이름<span className="red">(*)</span>
                         </label>
                       </th>
@@ -148,15 +158,15 @@ export default function SoftwareView() {
                         <input
                           ref={toolName}
                           type="text"
-                          name="is_Swt_toolname"
-                          id="is_Swt_toolname"
+                          name="swt_toolname"
+                          id="swt_toolname"
                           className=""
                         />
                       </td>
                     </tr>
                     <tr>
                       <th>
-                        <label htmlFor="is_Swt_demo_site">
+                        <label htmlFor="swt_demo_site">
                           데모 URL<span className="red">(*)</span>
                         </label>
                       </th>
@@ -164,15 +174,15 @@ export default function SoftwareView() {
                         <input
                           ref={demoSite}
                           type="text"
-                          name="is_Swt_demo_site"
-                          id="is_Swt_demo_site"
+                          name="swt_demo_site"
+                          id="swt_demo_site"
                           className=""
                         />
                       </td>
                     </tr>
                     <tr>
                       <th>
-                        <label htmlFor="is_Giturl">
+                        <label htmlFor="swt_github_url">
                           Github URL<span className="red">(*)</span>
                         </label>
                       </th>
@@ -180,23 +190,23 @@ export default function SoftwareView() {
                         <input
                           ref={gitUrl}
                           type="text"
-                          name="is_Giturl"
-                          id="is_Giturl"
+                          name="swt_github_url"
+                          id="swt_github_url"
                           className=""
                         />
                       </td>
                     </tr>
                     <tr>
                       <th>
-                        <label htmlFor="is_Comments">
+                        <label htmlFor="swt_comments">
                           설명<span className="red">(*)</span>
                         </label>
                       </th>
                       <td>
                         <textarea
                           ref={comments}
-                          name="is_Comments"
-                          id="is_Comments"
+                          name="swt_comments"
+                          id="swt_comments"
                           rows=""
                           cols=""
                         ></textarea>
@@ -205,7 +215,7 @@ export default function SoftwareView() {
                     <tr className="div_tb_tr fileb">
                       <th>메뉴얼 파일 #1</th>
                       <td className="fileBox fileBox_w1">
-                        <label htmlFor="uploadBtn1" className="btn_file">
+                        <label htmlFor="swt_manual_path" className="btn_file">
                           파일선택
                         </label>
                         <input
@@ -217,7 +227,7 @@ export default function SoftwareView() {
                         />
                         <input
                           type="file"
-                          id="uploadBtn1"
+                          id="swt_manual_path"
                           className="uploadBtn uploadBtn1"
                           onChange={(e) => this.handleFileInput("manual", e)}
                         />
@@ -227,7 +237,7 @@ export default function SoftwareView() {
                     <tr>
                       <th>메인 이미지</th>
                       <td className="fileBox fileBox1">
-                        <label htmlFor="imageSelect" className="btn_file">
+                        <label htmlFor="swt_big_imgpath" className="btn_file">
                           파일선택
                         </label>
                         <input
@@ -239,7 +249,7 @@ export default function SoftwareView() {
                         />
                         <input
                           type="file"
-                          id="imageSelect"
+                          id="swt_big_imgpatht"
                           className="uploadBtn uploadBtn1"
                           onChange={(e) => this.handleFileInput("file", e)}
                         />
@@ -249,7 +259,7 @@ export default function SoftwareView() {
                     <tr>
                       <th>라벨 이미지</th>
                       <td className="fileBox fileBox2">
-                        <label htmlFor="imageSelect2" className="btn_file">
+                        <label htmlFor="swt_imagepath" className="btn_file">
                           파일선택
                         </label>
                         <input
@@ -261,7 +271,7 @@ export default function SoftwareView() {
                         />
                         <input
                           type="file"
-                          id="imageSelect2"
+                          id="swt_imagepath"
                           className="uploadBtn uploadBtn1"
                           onChange={(e) => this.handleFileInput("file2", e)}
                         />
@@ -270,15 +280,15 @@ export default function SoftwareView() {
                     </tr>
                     <tr>
                       <th>
-                        <label htmlFor="is_Swt_function">
+                        <label htmlFor="swt_function">
                           상세 기능<span className="red">(*)</span>
                         </label>
                       </th>
                       <td>
                         <textarea
                           ref={functions}
-                          name="is_Swt_function"
-                          id="is_Swt_function"
+                          name="swt_function"
+                          id="swt_function"
                           rows=""
                           cols=""
                         ></textarea>

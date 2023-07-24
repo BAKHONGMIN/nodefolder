@@ -13,7 +13,7 @@ const pool = mysql.createPool({
   port: "3306",
   database: "react",
   user: "admin",
-  password: "",
+  password: ""
 });
 
 router.post("/", (req, res) => {
@@ -51,7 +51,6 @@ router.post("/", (req, res) => {
       if (results != undefined) {
         string = JSON.stringify(results);
         var json = JSON.parse(string);
-        5;
         if (req.body.crud == "select") {
           res.send({ json });
         } else {
