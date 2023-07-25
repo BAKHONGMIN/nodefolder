@@ -12,7 +12,7 @@ router.post("/", (req, res, next) => {
     //Swtool 리스트 조회
     try {
       //Mysql Api 모듈(CRUD)
-      var dbconnect_Module1 = require("./dbconnect_Module1");
+      const dbconnect_Module1 = require("./dbconnect_Module1");
 
       //MySql 쿼리 호출 정보 입력
       req.body.mapper = "SwToolsMapper"; //mybatis xml 파일명

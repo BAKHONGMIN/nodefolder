@@ -1,5 +1,5 @@
-var express = require("express");
-var router = express.Router();
+const express = require("express");
+const router = express.Router();
 const mysql = require("mysql");
 const bodyParser = require("body-parser");
 
@@ -18,17 +18,17 @@ const pool = mysql.createPool({
 
 router.post("/", (req, res) => {
   const mybatisMapper = require("mybatis-mapper");
-  var param = req.body;
+  const param = req.body;
 
   //mybatis mapper경로 설정
   mybatisMapper.createMapper(["./models/" + param.mapper + ".xml"]);
-  var time = new Date();
+  const time = new Date();
   console.log("## " + time + " ##");
   console.log("\n Called Mapper Name  = " + param.mapper);
 
-  var format = { language: "sql", indent: "  " };
+  const format = { language: "sql", indent: "  " };
   //mysql 쿼리 정보 세팅
-  var query = mybatisMapper.getStatement(
+  const query = mybatisMapper.getStatement(
     param.mapper,
     param.mapper_id,
     param,
@@ -45,12 +45,12 @@ router.post("/", (req, res) => {
       if (error) {
         console.log("db error************* : " + error);
       }
-      var time2 = new Date();
+      const time2 = new Date();
       console.log("## " + time2 + " ##");
       console.log("## RESULT DATA LIST ## : \n", results);
       if (results != undefined) {
         string = JSON.stringify(results);
-        var json = JSON.parse(string);
+        const json = JSON.parse(string);
         if (req.body.crud == "select") {
           res.send({ json });
         } else {
