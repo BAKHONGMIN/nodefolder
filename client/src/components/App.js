@@ -25,7 +25,7 @@ class App extends Component {
         <Routes>
           <Route exact path="/" element={<LoginForm />} />
           <Route path="/SoftwareList" element={<SoftwareList />} />
-          <Route path="/SoftwareView" element={<SoftwareView />} />
+          <Route path="/SoftwareView/:swtcode" element={<SoftwareView />} />
         </Routes>
         <Footer />
       </div>

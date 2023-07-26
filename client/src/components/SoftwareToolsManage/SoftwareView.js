@@ -1,14 +1,51 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import $ from "jquery";
 import Swal from "sweetalert2";
+import axios from "axios";
 
-export default function SoftwareView() {
+export default function SoftwareView({ props }) {
+  const params = useParams();
+
+  const [before_swtcode, setBeforeSwtCode] = useState(params.swtcode);
+
   const [Swt_toolname_checker, setSwtToolnameChecker] = useState(null);
   const [Swt_demo_site_checker, setSwtDemoSiteChecker] = useState(null);
   const [Giturl_checker, setGiturlChecker] = useState(null);
   const [Comments_checker, setCommentsChecker] = useState(null);
   const [Swt_function_checker, setSwtFunctionChecker] = useState(null);
+
+  useEffect(() => {
+    if (before_swtcode === "register") {
+      $(".modifyclass").hide();
+    } else {
+      callSwToolInfoApi();
+      $(".saveclass").hide();
+    }
+  }, []);
+
+  const callSwToolInfoApi = async () => {
+    axios
+      .post("/api/Swtool?type=list", {
+        is_Swtcode: before_swtcode
+      })
+      .then((response) => {
+        try {
+          const data = response.data.json[0];
+          $("#is_Swt_toolname").val(data.swt_toolname);
+          $("#is_Swt_demo_site").val(data.swt_demo_site);
+          $("#is_Giturl").val(data.swt_github_url);
+          $("#is_Comments").val(data.swt_comments);
+          $("#is_Swt_function").val(data.swt_function);
+        } catch (error) {
+          alert("작업중 에러가 발생했습니다.");
+        }
+      })
+      .catch((error) => {
+        alert("작업 중 에러가 발생했습니다.");
+        return false;
+      });
+  };
 
   const history = useNavigate();
 
@@ -277,6 +314,13 @@ export default function SoftwareView() {
                     onClick={(e) => submitClick("save", e)}
                   >
                     저장
+                  </button>
+                  <button
+                    type="button"
+                    className="bt_ty bt_ty2 submit_ty1 modifyclass"
+                    onClick={(e) => submitClick("modify", e)}
+                  >
+                    수정
                   </button>
                 </div>
               </div>
