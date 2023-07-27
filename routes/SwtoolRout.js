@@ -40,6 +40,22 @@ router.post("/", (req, res, next) => {
     } catch (error) {
       console.log("Module > dbconnect error : " + error);
     }
+  } else if (type === "modify") {
+    //Swtool 수정
+    try {
+      //MySql api 모듈(CRUD)
+      const dbconnect_Module1 = require("./dbconnect_Module1");
+
+      //mysql 쿼리 호출 정보 입력
+      req.body.mapper = "SwToolsMapper"; //mybatis xml 파일명
+      req.body.crud = "update"; //select, insert, update, delete 중에 선택
+      req.body.mapper_id = "updateSwToolsInfo";
+
+      router.use("/", dbconnect_Module1);
+      next("route");
+    } catch (error) {
+      console.log("Module > dbconnect error : " + error);
+    }
   }
 });
 
