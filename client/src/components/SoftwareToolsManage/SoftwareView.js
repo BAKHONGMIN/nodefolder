@@ -17,6 +17,7 @@ export default function SoftwareView({ props }) {
 
   const [selectedFile, setSelectedFile] = useState(null);
   const [manualName, setManualName] = useState(null);
+  const [fileName, setFileName] = useState(null);
 
   useEffect(() => {
     if (before_swtcode === "register") {
@@ -30,7 +31,7 @@ export default function SoftwareView({ props }) {
   const callSwToolInfoApi = async () => {
     axios
       .post("/api/Swtool?type=list", {
-        is_Swtcode: before_swtcode
+        is_Swtcode: before_swtcode,
       })
       .then((response) => {
         try {
@@ -109,9 +110,9 @@ export default function SoftwareView({ props }) {
         const response = await fetch("/api/Swtool?type=" + type, {
           method: "POST",
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
           },
-          body: Json_form
+          body: Json_form,
         });
         const body = await response.text();
         if (body === "succ") {
@@ -141,7 +142,7 @@ export default function SoftwareView({ props }) {
       icon: "success",
       title: title,
       showConfirmButton: showConfirmButton,
-      timer: 1000
+      timer: 1000,
     });
   };
 
@@ -169,13 +170,33 @@ export default function SoftwareView({ props }) {
 
   const handlePostManual = async () => {
     const formData = new FormData();
-    formData.append("file", this.state.selectedFile);
+    formData.append("file", selectedFile);
     return await axios
       .post("/api/upload?type=uploads/swmanual/", formData)
       .then((res) => {
         setManualName(res.data.filename);
         $("#is_ManualName").remove();
-        // 여기서 부터
+        $("#upload_manual").prepend(
+          '<input id="is_MenualName" type="hidden"' +
+            'name="is_MenualName" value="/swmanual/' +
+            manualName +
+            '"}/>'
+        );
+      })
+      .catch((error) => {
+        alert("작업중 오류가 발생하였습니다.", error, "error", "닫기");
+      });
+  };
+
+  const handlePostImage = async (type) => {
+    const formData = new FormData();
+    formData.append("file", selectedFile);
+    return await axios
+      .post("/api/upload?type=uploads/image/", formData)
+      .then((res) => {
+        if (type === "file") {
+          setFile;
+        }
       });
   };
 
