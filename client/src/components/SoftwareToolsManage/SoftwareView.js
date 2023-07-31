@@ -15,6 +15,9 @@ export default function SoftwareView({ props }) {
   const [Comments_checker, setCommentsChecker] = useState(null);
   const [Swt_function_checker, setSwtFunctionChecker] = useState(null);
 
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [manualName, setManualName] = useState(null);
+
   useEffect(() => {
     if (before_swtcode === "register") {
       $(".modifyclass").hide();
@@ -27,7 +30,7 @@ export default function SoftwareView({ props }) {
   const callSwToolInfoApi = async () => {
     axios
       .post("/api/Swtool?type=list", {
-        is_Swtcode: before_swtcode,
+        is_Swtcode: before_swtcode
       })
       .then((response) => {
         try {
@@ -106,9 +109,9 @@ export default function SoftwareView({ props }) {
         const response = await fetch("/api/Swtool?type=" + type, {
           method: "POST",
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "application/json"
           },
-          body: Json_form,
+          body: Json_form
         });
         const body = await response.text();
         if (body === "succ") {
@@ -131,14 +134,49 @@ export default function SoftwareView({ props }) {
       }
     }
   };
+
   const sweetalertSucc = (title, showConfirmButton) => {
     Swal.fire({
       position: "center",
       icon: "success",
       title: title,
       showConfirmButton: showConfirmButton,
-      timer: 1000,
+      timer: 1000
     });
+  };
+
+  const handleFileInput = (type, e) => {
+    if (type === "file") {
+      $("#imagefile").val(e.target.files[0].name);
+    } else if (type === "file2") {
+      $("#imagefile2").val(e.target.files[0].name);
+    } else if (type === "manual") {
+      $("#manualfile").val(e.target.files[0].name);
+    }
+
+    setSelectedFile(e.target.files[0]);
+
+    const timeout = setTimeout(() => {
+      if (type === "manual") {
+        handlePostManual();
+      } else {
+        handlePostImage(type);
+      }
+    }, 100);
+
+    clearTimeout(timeout);
+  };
+
+  const handlePostManual = async () => {
+    const formData = new FormData();
+    formData.append("file", this.state.selectedFile);
+    return await axios
+      .post("/api/upload?type=uploads/swmanual/", formData)
+      .then((res) => {
+        setManualName(res.data.filename);
+        $("#is_ManualName").remove();
+        // 여기서 부터
+      });
   };
 
   return (
