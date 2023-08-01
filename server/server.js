@@ -1,10 +1,10 @@
-var express = require("express");
+const express = require("express");
 
-var indexRouter = require("../routes/index");
-var usersRouter = require("../routes/users");
-var swtoolRouter = require("../routes/SwtoolRout");
+const indexRouter = require("../routes/index");
+const usersRouter = require("../routes/users");
+const swtoolRouter = require("../routes/SwtoolRout");
 
-var app = express();
+const app = express();
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
