@@ -83,6 +83,8 @@
         <if test="is_MenualName !=null && is_menualName != '' ">
           , swt_manual_path = #{is_MenualName}
         </if>
-        ,update_date = DATE_FORMAT(now(), "%Y%m%d%H%i%s")
-  </update>  
+        , update_date = DATE_FORMAT(now(), '%Y%m%d%H%i%s')
+        , update_user = #{is_Email}
+    WHERE swt_code = #{is_beforeSwtcode}
+  </update> 
 </mapper>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 export default function SoftwareList() {
   const [responseSwtoolList, setResponseSwtoolList] = useState([]);
@@ -17,8 +18,6 @@ export default function SoftwareList() {
       alert("작업중 오류가 발생하였습니다.");
     }
   };
-
-  console.log(responseSwtoolList);
 
   const SwToolListAppend = () => {
     return responseSwtoolList.map((data) => {
@@ -41,9 +40,16 @@ export default function SoftwareList() {
               >
                 수정
               </Link>
-              <a href="#n" className="bt_c1 w50_b">
+              <button
+                type="button"
+                id={data.swt_code}
+                className="bt_c1 w50_b"
+                onClick={(e) => {
+                  deleteSwtool(e);
+                }}
+              >
                 삭제
-              </a>
+              </button>
             </td>
           </tr>
         </tbody>
@@ -51,7 +57,41 @@ export default function SoftwareList() {
     });
   };
 
-  console.log(SwToolListAppend);
+  const deleteSwtool = async (e) => {
+    const event_target = e.target;
+    sweetalertDelete("정말 삭제하시겠습니까?", async () => {
+      await axios
+        .post("/api/Swtool?type=delete", {
+          is_SwtCd: event_target.getAttribute("id"),
+        })
+        .then((response) => {
+          callSwToolListApi();
+        })
+        .catch((error) => {
+          alert("삭제중 오류가 발새했습니다.");
+          return false;
+        });
+    });
+  };
+
+  const sweetalertDelete = (title, callbackFunc) => {
+    Swal.fire({
+      title: title,
+      text: "",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "YES",
+    }).then((result) => {
+      if (result.value) {
+        Swal.fire("Deleted!", "삭제되었습니다.", "success");
+      } else {
+        return false;
+      }
+      callbackFunc();
+    });
+  };
 
   return (
     <section className="sub_wrap">
@@ -77,7 +117,6 @@ export default function SoftwareList() {
             </thead>
           </table>
           <table className="table_ty2 ad_tlist">{SwToolListAppend()}</table>
-          <div>{console.log(1)}</div>
         </div>
       </article>
     </section>
