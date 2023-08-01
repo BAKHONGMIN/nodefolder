@@ -87,9 +87,4 @@
         , update_user = #{is_Email}
     WHERE swt_code = #{is_beforeSwtcode}
   </update> 
-
-  <delete id="deleteSwToolsInfo">
-    DELETE FROM react.react_swtool
-    WHERE swt_code = #{is_SwtCd}
-  </delete>
 </mapper>
