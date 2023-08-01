@@ -35,7 +35,7 @@
         <if test="is_MainImg != null && is_MainImg != ''">
           , swt_big_imgpath
         </if>
-        <if test="is_MenualName != null && is_MenualName != ''">
+        <if test="is_ManualName != null && is_ManualName != ''">
           , swt_manual_path
         </if>
         , reg_date
@@ -56,8 +56,8 @@
       <if test="is_MainImg != null && is_MainImg != ''">
         , #{is_MainImg}
       </if>
-      <if test="is_MenualName != null && is_MenualName != ''">
-        , #{is_MenualName}
+      <if test="is_ManualName != null && is_ManualName != ''">
+        , #{is_ManualName}
       </if>
       , DATE_FORMAT(now(), '%Y%m%d%H%i%s')
       , #{is_Email}
@@ -80,8 +80,8 @@
         <if test="is_MainImg != null && is_MainImg != '' ">
           , swt_big_imgpath = #{is_MainImg}
         </if>
-        <if test="is_MenualName !=null && is_menualName != '' ">
-          , swt_manual_path = #{is_MenualName}
+        <if test="is_ManualName !=null && is_manualName != '' ">
+          , swt_manual_path = #{is_ManualName}
         </if>
         , update_date = DATE_FORMAT(now(), '%Y%m%d%H%i%s')
         , update_user = #{is_Email}
