@@ -15,13 +15,6 @@ export default function SoftwareView({ props }) {
   const [Comments_checker, setCommentsChecker] = useState(null);
   const [Swt_function_checker, setSwtFunctionChecker] = useState(null);
 
-<<<<<<< HEAD
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [manualName, setManualName] = useState(null);
-  const [fileName, setFileName] = useState(null);
-
-=======
->>>>>>> parent of f8d7c3b (Update SoftwareView.js)
   useEffect(() => {
     if (before_swtcode === "register") {
       $(".modifyclass").hide();
@@ -145,63 +138,6 @@ export default function SoftwareView({ props }) {
     });
   };
 
-<<<<<<< HEAD
-  const handleFileInput = (type, e) => {
-    if (type === "file") {
-      $("#imagefile").val(e.target.files[0].name);
-    } else if (type === "file2") {
-      $("#imagefile2").val(e.target.files[0].name);
-    } else if (type === "manual") {
-      $("#manualfile").val(e.target.files[0].name);
-    }
-
-    setSelectedFile(e.target.files[0]);
-
-    const timeout = setTimeout(() => {
-      if (type === "manual") {
-        handlePostManual();
-      } else {
-        handlePostImage(type);
-      }
-    }, 100);
-
-    clearTimeout(timeout);
-  };
-
-  const handlePostManual = async () => {
-    const formData = new FormData();
-    formData.append("file", selectedFile);
-    return await axios
-      .post("/api/upload?type=uploads/swmanual/", formData)
-      .then((res) => {
-        setManualName(res.data.filename);
-        $("#is_ManualName").remove();
-        $("#upload_manual").prepend(
-          '<input id="is_MenualName" type="hidden"' +
-            'name="is_MenualName" value="/swmanual/' +
-            manualName +
-            '"}/>'
-        );
-      })
-      .catch((error) => {
-        alert("작업중 오류가 발생하였습니다.", error, "error", "닫기");
-      });
-  };
-
-  const handlePostImage = async (type) => {
-    const formData = new FormData();
-    formData.append("file", selectedFile);
-    return await axios
-      .post("/api/upload?type=uploads/image/", formData)
-      .then((res) => {
-        if (type === "file") {
-          setFile;
-        }
-      });
-  };
-
-=======
->>>>>>> parent of f8d7c3b (Update SoftwareView.js)
   return (
     <section className="sub_wrap">
       <article className="s_cnt mp_pro_li ct1">
@@ -212,6 +148,12 @@ export default function SoftwareView({ props }) {
           <form name="frm" id="frm" action="" method="post">
             <input id="is_Swtcode" type="hidden" name="is_Swtcode" />
             <input id="is_Email" type="hidden" name="is_Email" value="guest" />
+            <input
+              id="is_beforeSwtcode"
+              type="hidden"
+              name="is_beforeSwtcode"
+              value={before_swtcode}
+            />
             <article className="res_w">
               <p className="ment" style={{ textAlign: "right" }}>
                 <span className="red">(*)</span>표시는 필수입력사항 입니다.
