@@ -3,7 +3,6 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import $ from "jquery";
 import Swal from "sweetalert2";
 import axios from "axios";
-
 export default function SoftwareView({ props }) {
   const params = useParams();
 
@@ -23,7 +22,6 @@ export default function SoftwareView({ props }) {
       $(".saveclass").hide();
     }
   }, []);
-
   const callSwToolInfoApi = async () => {
     axios
       .post("/api/Swtool?type=list", {
@@ -46,9 +44,7 @@ export default function SoftwareView({ props }) {
         return false;
       });
   };
-
   const history = useNavigate();
-
   const submitClick = async (type, e) => {
     e.preventDefault();
     setSwtToolnameChecker($("#is_Swt_toolname").val());
@@ -56,7 +52,6 @@ export default function SoftwareView({ props }) {
     setGiturlChecker($("#is_Giturl").val());
     setCommentsChecker($("#is_Comments").val());
     setSwtFunctionChecker($("#is_Swt_function").val());
-
     const fnValidate = (e) => {
       if (Swt_toolname_checker === "") {
         $("#is_Swt_toolname").addClass("border_validate_err");
@@ -64,28 +59,24 @@ export default function SoftwareView({ props }) {
         return false;
       }
       $("#is_Swt_toolname").removeClass("border_validate_err");
-
       if (Swt_demo_site_checker === "") {
         $("#is_Swt_demo_site").addClass("border_validate_err");
         alert("데모 URL을 다시 확인해주세요.");
         return false;
       }
       $("#is_Swt_demo_site").removeClass("border_validate_err");
-
       if (Giturl_checker === "") {
         $("#is_Giturl").addClass("border_validate_err");
         alert("Github URL을 다시 확인해주세요.");
         return false;
       }
       $("#is_Giturl").removeClass("border_validate_err");
-
       if (Comments_checker === "") {
         $("#is_Comments").addClass("border_validate_err");
         alert("설명을 다시 확인해주세요.");
         return false;
       }
       $("#is_Comments").removeClass("border_validate_err");
-
       if (Swt_function_checker === "") {
         $("#is_Swt_function").addClass("border_validate_err");
         alert("상세기능을 다시 확인해주세요.");
@@ -94,14 +85,12 @@ export default function SoftwareView({ props }) {
       $("#is_Swt_function").removeClass("border_validate_err");
       return true;
     };
-
     if (fnValidate()) {
       let jsonstr = $("form[name='frm']").serialize();
       jsonstr = decodeURIComponent(jsonstr);
       let Json_form = JSON.stringify(jsonstr).replace(/\"/gi, "");
       Json_form =
         '{"' + Json_form.replace(/\&/g, '","').replace(/=/gi, '":"') + '"}';
-
       try {
         const response = await fetch("/api/Swtool?type=" + type, {
           method: "POST",
@@ -114,11 +103,13 @@ export default function SoftwareView({ props }) {
         if (body === "succ") {
           if (type === "save") {
             sweetalertSucc("Software Tools 등록이 완료되었습니다.", false);
+          } else if (type === "modify") {
+            sweetalertSucc("Software Tools 수정이 완료됐습니다.", false);
           }
+
           const timeout = setTimeout(() => {
             history("/SoftwareList");
           }, 1500);
-
           return () => clearTimeout(timeout);
         } else {
           alert("2단계에서 오류가 발생하였습니다.");
