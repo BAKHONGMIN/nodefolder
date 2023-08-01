@@ -15,10 +15,13 @@ export default function SoftwareView({ props }) {
   const [Comments_checker, setCommentsChecker] = useState(null);
   const [Swt_function_checker, setSwtFunctionChecker] = useState(null);
 
+<<<<<<< HEAD
   const [selectedFile, setSelectedFile] = useState(null);
   const [manualName, setManualName] = useState(null);
   const [fileName, setFileName] = useState(null);
 
+=======
+>>>>>>> parent of f8d7c3b (Update SoftwareView.js)
   useEffect(() => {
     if (before_swtcode === "register") {
       $(".modifyclass").hide();
@@ -31,7 +34,7 @@ export default function SoftwareView({ props }) {
   const callSwToolInfoApi = async () => {
     axios
       .post("/api/Swtool?type=list", {
-        is_Swtcode: before_swtcode
+        is_Swtcode: before_swtcode,
       })
       .then((response) => {
         try {
@@ -110,9 +113,9 @@ export default function SoftwareView({ props }) {
         const response = await fetch("/api/Swtool?type=" + type, {
           method: "POST",
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
           },
-          body: Json_form
+          body: Json_form,
         });
         const body = await response.text();
         if (body === "succ") {
@@ -132,17 +135,17 @@ export default function SoftwareView({ props }) {
       }
     }
   };
-
   const sweetalertSucc = (title, showConfirmButton) => {
     Swal.fire({
       position: "center",
       icon: "success",
       title: title,
       showConfirmButton: showConfirmButton,
-      timer: 1000
+      timer: 1000,
     });
   };
 
+<<<<<<< HEAD
   const handleFileInput = (type, e) => {
     if (type === "file") {
       $("#imagefile").val(e.target.files[0].name);
@@ -197,6 +200,8 @@ export default function SoftwareView({ props }) {
       });
   };
 
+=======
+>>>>>>> parent of f8d7c3b (Update SoftwareView.js)
   return (
     <section className="sub_wrap">
       <article className="s_cnt mp_pro_li ct1">
