@@ -30,10 +30,10 @@ export default function SoftwareView({ props }) {
     }
   }, []);
 
-  const callSwToolInfoApi = () => {
-    axios
+  const callSwToolInfoApi = async () => {
+    await axios
       .post("/api/Swtool?type=list", {
-        is_Swtcode: before_swtcode,
+        is_Swtcode: before_swtcode
       })
       .then((response) => {
         try {
@@ -44,40 +44,40 @@ export default function SoftwareView({ props }) {
           $("#is_Comments").val(data.swt_comments);
           $("#is_Swt_function").val(data.swt_function);
 
-          setManualName(data.swt_manual_path.replace("/swmanual/", ""));
-          setFileName(data.swt_big_imgpath.replace("/image/", ""));
-          setFileName2(data.swt_imagepath.replace("/image/", ""));
+          // setManualName(data.swt_manual_path.replace("/swmanual/", ""));
+          // setFileName(data.swt_big_imgpath.replace("/image/", ""));
+          // setFileName2(data.swt_imagepath.replace("/image/", ""));
 
-          $("#upload_img").prepend(
-            '<img id="uploadimg" src="' + data.swt_big_imgpath + '"/>'
-          );
+          // $("#upload_img").prepend(
+          //   '<img id="uploadimg" src="' + data.swt_big_imgpath + '"/>'
+          // );
 
-          $("#upload_img2").prepend(
-            '<img id="uploadimg2" src="' + data.swt_imagepath + '"/>'
-          );
+          // $("#upload_img2").prepend(
+          //   '<img id="uploadimg2" src="' + data.swt_imagepath + '"/>'
+          // );
 
-          $("#imagefile").val(fileName);
-          $("#imagefile2").val(fileName2);
-          $("#manualfile").val(manualName);
+          // $("#imagefile").val(fileName);
+          // $("#imagefile2").val(fileName2);
+          // $("#manualfile").val(manualName);
 
-          if ($("#uploadimg").attr("src").indexOf("null") > -1) {
-            $("#uploadimg").hide();
-          }
+          // if ($("#uploadimg").attr("src").indexOf("null") > -1) {
+          //   $("#uploadimg").hide();
+          // }
 
-          if ($("#uploadimg2").attr("src").indexOf("null") > -1) {
-            $("#uploadimg2").hide();
-          }
+          // if ($("#uploadimg2").attr("src").indexOf("null") > -1) {
+          //   $("#uploadimg2").hide();
+          // }
         } catch (error) {
-          alert("작업중 에러가 발생했습니다.");
+          alert("작업중 에러가 발생했습니다.(2)");
         }
       })
       .catch((error) => {
-        alert("작업 중 에러가 발생했습니다.");
+        alert("작업 중 에러가 발생했습니다.(1)");
         return false;
       });
   };
 
-  const submitClick = (type, e) => {
+  const submitClick = async (type, e) => {
     e.preventDefault();
     setSwtToolnameChecker($("#is_Swt_toolname").val());
     setSwtDemoSiteChecker($("#is_Swt_demo_site").val());
@@ -123,15 +123,18 @@ export default function SoftwareView({ props }) {
       let Json_form = JSON.stringify(jsonstr).replace(/\"/gi, "");
       Json_form =
         '{"' + Json_form.replace(/\&/g, '","').replace(/=/gi, '":"') + '"}';
+
       try {
-        const response = fetch("/api/Swtool?type=" + type, {
+        const response = await fetch("/api/Swtool?type=" + type, {
           method: "POST",
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "application/json"
           },
-          body: Json_form,
+          body: Json_form
         });
-        const body = response.text();
+
+        const body = await response.text();
+
         if (body === "succ") {
           if (type === "save") {
             sweetalertSucc("Software Tools 등록이 완료되었습니다.", false);
@@ -158,7 +161,7 @@ export default function SoftwareView({ props }) {
       icon: "success",
       title: title,
       showConfirmButton: showConfirmButton,
-      timer: 1000,
+      timer: 1000
     });
   };
 
