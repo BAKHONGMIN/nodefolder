@@ -17,10 +17,6 @@ export default function SoftwareView({ props }) {
   const [Swt_function_checker, setSwtFunctionChecker] = useState(null);
   const history = useNavigate();
 
-  const [manualName, setManualName] = useState(null);
-  const [fileName, setFileName] = useState(null);
-  const [fileName2, setFileName2] = useState(null);
-
   useEffect(() => {
     if (before_swtcode === "register") {
       $(".modifyclass").hide();
@@ -44,29 +40,29 @@ export default function SoftwareView({ props }) {
           $("#is_Comments").val(data.swt_comments);
           $("#is_Swt_function").val(data.swt_function);
 
-          // setManualName(data.swt_manual_path.replace("/swmanual/", ""));
-          // setFileName(data.swt_big_imgpath.replace("/image/", ""));
-          // setFileName2(data.swt_imagepath.replace("/image/", ""));
+          /* const manualName = data.swt_manual_path.replace("/swmanual/", "");
+          const fileName = data.swt_big_imgpath.replace("/image/", "");
+          const fileName2 = data.swt_imagepath.replace("/image/", "");
 
-          // $("#upload_img").prepend(
-          //   '<img id="uploadimg" src="' + data.swt_big_imgpath + '"/>'
-          // );
+          $("#imagefile").val(fileName);
+          $("#imagefile2").val(fileName2);
+          $("#manualfile").val(manualName);
 
-          // $("#upload_img2").prepend(
-          //   '<img id="uploadimg2" src="' + data.swt_imagepath + '"/>'
-          // );
+          $("#upload_img").prepend(
+            '<img id="uploadimg" src="' + data.swt_big_imgpath + '"/>'
+          );
 
-          // $("#imagefile").val(fileName);
-          // $("#imagefile2").val(fileName2);
-          // $("#manualfile").val(manualName);
+          $("#upload_img2").prepend(
+            '<img id="uploadimg2" src="' + data.swt_imagepath + '"/>'
+          );
 
-          // if ($("#uploadimg").attr("src").indexOf("null") > -1) {
-          //   $("#uploadimg").hide();
-          // }
+          if ($("#uploadimg").attr("src").indexOf("null") > -1) {
+            $("#uploadimg").hide();
+          }
 
-          // if ($("#uploadimg2").attr("src").indexOf("null") > -1) {
-          //   $("#uploadimg2").hide();
-          // }
+          if ($("#uploadimg2").attr("src").indexOf("null") > -1) {
+            $("#uploadimg2").hide();
+          } */
         } catch (error) {
           alert("작업중 에러가 발생했습니다.(2)");
         }
@@ -186,18 +182,18 @@ export default function SoftwareView({ props }) {
     return () => clearTimeout(timeout);
   };
 
-  const handlePostManual = () => {
+  const handlePostManual = async () => {
     const formData = new FormData();
     formData.append("file", selectedFile);
-    return axios
+    return await axios
       .post("/api/upload?type=uploads/swmanual/", formData)
       .then((res) => {
-        setManualName(res.data.filename);
+        const menualName = res.data.filename;
         $("#is_ManualName").remove();
         $("#upload_manual").prepend(
           '<input id="is_ManualName" type="hidden"' +
             'name="is_ManualName" value="/swmanual/' +
-            manualName +
+            menualName +
             '"}/>'
         );
       })
@@ -213,7 +209,8 @@ export default function SoftwareView({ props }) {
       .post("/api/upload?type=uploads/image/", formData)
       .then((res) => {
         if (type === "file") {
-          setFileName(res.data.filename);
+          const fileName = res.data.filename;
+
           $("#is_MainImg").remove();
           $("#uploadimg").remove();
           $("#upload_img").prepend(
@@ -226,7 +223,8 @@ export default function SoftwareView({ props }) {
               '"}/>'
           );
         } else if (type === "file2") {
-          setFileName2(res.data.filename);
+          const fileName2 = res.data.filename;
+
           $("#is_LabelImg").remove();
           $("#uploadimg2").remove();
           $("#upload_img2").prepend(
