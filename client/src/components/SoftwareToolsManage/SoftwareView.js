@@ -29,7 +29,7 @@ export default function SoftwareView({ props }) {
   const callSwToolInfoApi = async () => {
     await axios
       .post("/api/Swtool?type=list", {
-        is_Swtcode: before_swtcode
+        is_Swtcode: before_swtcode,
       })
       .then((response) => {
         try {
@@ -40,13 +40,9 @@ export default function SoftwareView({ props }) {
           $("#is_Comments").val(data.swt_comments);
           $("#is_Swt_function").val(data.swt_function);
 
-          /* const manualName = data.swt_manual_path.replace("/swmanual/", "");
+          /*  const manualName = data.swt_manual_path.replace("/swmanual/", "");
           const fileName = data.swt_big_imgpath.replace("/image/", "");
-          const fileName2 = data.swt_imagepath.replace("/image/", "");
-
-          $("#imagefile").val(fileName);
-          $("#imagefile2").val(fileName2);
-          $("#manualfile").val(manualName);
+          const fileName2 = data.swt_imagepath.replace("/image/", ""); */
 
           $("#upload_img").prepend(
             '<img id="uploadimg" src="' + data.swt_big_imgpath + '"/>'
@@ -56,13 +52,17 @@ export default function SoftwareView({ props }) {
             '<img id="uploadimg2" src="' + data.swt_imagepath + '"/>'
           );
 
+          /* $("#imagefile").val(fileName);
+          $("#imagefile2").val(fileName2);
+          $("#manualfile").val(manualName); */
+
           if ($("#uploadimg").attr("src").indexOf("null") > -1) {
             $("#uploadimg").hide();
           }
 
           if ($("#uploadimg2").attr("src").indexOf("null") > -1) {
             $("#uploadimg2").hide();
-          } */
+          }
         } catch (error) {
           alert("작업중 에러가 발생했습니다.(2)");
         }
@@ -124,9 +124,9 @@ export default function SoftwareView({ props }) {
         const response = await fetch("/api/Swtool?type=" + type, {
           method: "POST",
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
           },
-          body: Json_form
+          body: Json_form,
         });
 
         const body = await response.text();
@@ -157,7 +157,7 @@ export default function SoftwareView({ props }) {
       icon: "success",
       title: title,
       showConfirmButton: showConfirmButton,
-      timer: 1000
+      timer: 1000,
     });
   };
 
@@ -169,7 +169,7 @@ export default function SoftwareView({ props }) {
     } else if (type === "manual") {
       $("#manualfile").val(e.target.files[0].name);
     }
-
+    console.log(type, e);
     setSelectedFile(e.target.files[0]);
 
     const timeout = setTimeout(() => {
@@ -198,14 +198,14 @@ export default function SoftwareView({ props }) {
         );
       })
       .catch((error) => {
-        alert("작업중 오류가 발생하였습니다.", error, "error", "닫기");
+        alert("작업중 오류가 발생하였습니다.(5)", error, "error", "닫기");
       });
   };
 
-  const handlePostImage = (type) => {
+  const handlePostImage = async (type) => {
     const formData = new FormData();
     formData.append("file", selectedFile);
-    return axios
+    return await axios
       .post("/api/upload?type=uploads/image/", formData)
       .then((res) => {
         if (type === "file") {
@@ -239,7 +239,7 @@ export default function SoftwareView({ props }) {
         }
       })
       .catch((error) => {
-        alert("작업중 오류가 발생하였습니다.");
+        alert("작업중 오류가 발생하였습니다.(3)");
       });
   };
 

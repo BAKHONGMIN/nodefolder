@@ -4,7 +4,7 @@ const moment = require("moment");
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     try {
-      var type = req.query.type;
+      const type = req.query.type;
       cb(null, type);
     } catch (error) {
       console.log(error);
