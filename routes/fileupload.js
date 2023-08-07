@@ -15,7 +15,7 @@ const storage = multer.diskStorage({
       "utf8"
     );
     cb(null, moment().format("YYYYMMDDHHmmss") + "_" + file.originalname);
-  }
+  },
 });
 
 const upload = multer({ storage: storage }).single("file");
