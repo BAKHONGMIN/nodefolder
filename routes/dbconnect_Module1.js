@@ -13,7 +13,7 @@ const pool = mysql.createPool({
   port: "3306",
   database: "react",
   user: "admin",
-  password: ""
+  password: "workbench",
 });
 
 router.post("/", (req, res) => {
