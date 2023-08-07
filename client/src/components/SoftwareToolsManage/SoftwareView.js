@@ -33,7 +33,6 @@ export default function SoftwareView({ props }) {
             $("#is_Comments").val(data.swt_comments);
             $("#is_Swt_function").val(data.swt_function);
 
-            // 데이터가 존재 할 경우에만 데이터 반환
             if (data.swt_manual_path !== null) {
               const manualName = data.swt_manual_path.replace("/swmanual/", "");
               $("#manualfile").val(manualName);
@@ -172,6 +171,8 @@ export default function SoftwareView({ props }) {
 
     selectedFile = e.target.files[0];
 
+    console.log(selectedFile);
+
     const timeout = setTimeout(() => {
       if (type === "manual") {
         handlePostMenual();
@@ -193,10 +194,9 @@ export default function SoftwareView({ props }) {
         const menualName = res.data.filename;
         $("#is_MenualName").remove();
         $("#upload_menual").prepend(
-          '<input id="is_MenualName" type="hidden"' +
-            'name="is_MenualName" value="/swmanual/' +
-            menualName +
-            '"}/>'
+          `<input id="is_MenualName" type="hidden"` +
+            `name="is_MenualName" value="/swmanual/"` +
+            menualName
         );
       })
       .catch((error) => {
@@ -207,7 +207,7 @@ export default function SoftwareView({ props }) {
   const handlePostImage = async (type) => {
     const formData = new FormData();
     formData.append("file", selectedFile);
-
+    console.log(selectedFile);
     return await axios
       .post("/api/upload?type=uploads/image/", formData)
       .then((res) => {
