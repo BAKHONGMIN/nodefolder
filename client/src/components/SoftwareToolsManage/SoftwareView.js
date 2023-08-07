@@ -22,7 +22,7 @@ export default function SoftwareView({ props }) {
     const callSwToolInfoApi = async () => {
       await axios
         .post("/api/Swtool?type=list", {
-          is_Swtcode: before_swtcode
+          is_Swtcode: before_swtcode,
         })
         .then((response) => {
           try {
@@ -134,9 +134,9 @@ export default function SoftwareView({ props }) {
         const response = await fetch("/api/Swtool?type=" + type, {
           method: "POST",
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
           },
-          body: Json_form
+          body: Json_form,
         });
         const body = await response.text();
         if (body === "succ") {
@@ -250,7 +250,7 @@ export default function SoftwareView({ props }) {
       icon: "success",
       title: title,
       showConfirmButton: showConfirmButton,
-      timer: 1000
+      timer: 1000,
     });
   };
 
@@ -261,14 +261,7 @@ export default function SoftwareView({ props }) {
           <h2 className="s_tit1">Software Tools 등록/수정</h2>
         </div>
         <div className="bo_w re1_wrap re1_wrap_writer">
-          <form
-            name="frm"
-            id="frm"
-            action=""
-            method="post"
-            encType="multipart/form-data"
-            acceptCharset="UTF-8"
-          >
+          <form name="frm" id="frm" action="" method="post">
             <input id="is_Swtcode" type="hidden" name="is_Swtcode" />
             <input id="is_Email" type="hidden" name="is_Email" value="guest" />
             <input
