@@ -4,7 +4,7 @@ const indexRouter = require("../routes/index");
 const usersRouter = require("../routes/users");
 const swtoolRouter = require("../routes/SwtoolRout");
 const fileuploadRouter = require("../routes/UploadRout");
-const usersRouter = require("../routes/UsersRout");
+const usersRouters = require("../routes/UsersRout");
 
 const app = express();
 
@@ -18,7 +18,7 @@ app.use("/api/upload", fileuploadRouter);
  이점이 있다. 또 지정 경로(/upload)를 제외한 짧은 url로 파일 경로를 호출할 수 있다. */
 app.use(express.static("./uploads"));
 
-app.use("/api/register", usersRouter);
+app.use("/api/register", usersRouters);
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`Listening on port ${port}`));
