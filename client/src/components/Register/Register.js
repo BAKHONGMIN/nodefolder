@@ -25,6 +25,30 @@ export default function Register() {
         $("#email_val").addClass("border_validate_err");
         sweetalert("이메일 주소를 다시 확인해주세요.", "", "info", "닫기");
       }
+
+      if (email_val_checker.search(/\s/) !== -1) {
+        $("#email_val").addClass("border_validate_err");
+        sweetalert("이메일 공백을 제거해 주세요.", "", "info", "닫기");
+        return false;
+      }
+      $("email_val").removeClass("border_validate_err");
+
+      if (email2_val_checker === "") {
+        $("#email2_val").addClass("border_validate_err");
+        sweetalert("이메일 주소를 다시 확인해주세요.", "", "info", "닫기");
+        return false;
+      }
+      $("#email2_val").removeClass("border_validate_err");
+
+      if (pwd_val_checker === "") {
+        $("#pwd_val").addClass("border_validate_err");
+        sweetalert("비밀번호를 입력해주세요", "", "info", "닫기");
+        return false;
+      }
+      if(pwd_val_checker !== ""){
+        const str = pwd_val_checker;
+        if(str.search(/\s/) ! )
+      }
     };
   };
 
