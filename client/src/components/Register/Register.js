@@ -45,9 +45,36 @@ export default function Register() {
         sweetalert("비밀번호를 입력해주세요", "", "info", "닫기");
         return false;
       }
-      if(pwd_val_checker !== ""){
+      if (pwd_val_checker !== "") {
         const str = pwd_val_checker;
-        if(str.search(/\s/) ! )
+        if (str.search(/\s/) !== -1) {
+          $("#pwd_val").addClass("border_vaildate_err");
+          sweetalert("비밀번호 공백을 제거해 주세요.", "", "info", "닫기");
+          return false;
+        }
+        if (
+          !pattern1.test(str) ||
+          !pattern2.test(str) ||
+          !pattern3.test(str) ||
+          str.length < 8 ||
+          str.length > 16
+        ) {
+          $("#pwd_val").addClass("border_validate_err");
+          sweetalert(
+            "8 ~ 16자 영문 대 소문자\n숫자, 특수문자를 사용하세요.",
+            "",
+            "info",
+            "닫기"
+          );
+          return false;
+        }
+      }
+      $("#pwd_val").removeClass("border_validate_err");
+
+      if (pwd_cnf_val_checker === "") {
+        $("#pwd_cnf_val").addClass("border_validate_err");
+        sweetalert("비밀번호 확인을 입력해주세요.", "", "info", "닫기");
+        return false;
       }
     };
   };
@@ -67,7 +94,7 @@ export default function Register() {
       title: title,
       text: contents,
       icon: icon,
-      confirmButtonText: confirmButtonText
+      confirmButtonText: confirmButtonText,
     });
   };
 
