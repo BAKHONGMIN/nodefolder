@@ -76,7 +76,61 @@ export default function Register() {
         sweetalert("비밀번호 확인을 입력해주세요.", "", "info", "닫기");
         return false;
       }
+      if (pwd_val_checker !== pwd_cnf_val_checker) {
+        $("#pwd_val").addClass("border_validate_err");
+        $("#pwd_cnf_val").addClass("border_validate_err");
+        sweetalert("비밀번호가 일치하지 않습니다.", "", "info", "닫기");
+        return false;
+      }
+      $("#pwd_cnf_val").removeClass("border_validate_err");
+
+      if (name_val_checker === "") {
+        $("#name_val").addClass("border_validate_err");
+        sweetalert("성명을 입력해주세요.", "", "info", "닫기");
+        return false;
+      }
+      $("#name_val").removeClass("border_validate_err");
+
+      if (org_val_checker === "") {
+        $("#org_val").addClass("border_validate_err");
+        sweetalert("소속기관을 입력해주세요.", "", "info", "닫기");
+        return false;
+      }
+
+      if (org_val_checker.search(/\s/) !== -1) {
+        $("#org_val").addClass("border_validate_err");
+        sweetalert("소속기관에 공백을 제거해주세요.", "", "info", "닫기");
+        return false;
+      }
+      $("#org_val").removeClass("border_validate_err");
+
+      if (major_val_checker === "") {
+        $("#major_val").addClass("border_validate_err");
+        sweetalert("전공에 공백을 제거해 주세요.", "", "info", "닫기");
+        return false;
+      }
+      $("#major_val").removeClass("border_validate_err");
+
+      if (
+        phone1_val_checker === "" &&
+        phone2_val_checker === "" &&
+        phone3_val_checker
+      ) {
+        $("#phone1_val").addClass("border_validate_err");
+        $("#phone2_val").addClass("border_validate_err");
+        $("#phone3_val").addClass("border_validate_err");
+        sweetalert("휴대전화 번호를 입력해주세요.", "", "info", "닫기");
+        return false;
+      }
+      $("#phone1_val").removeClass("border_validate_err");
+      $("#phone2_val").removeClass("border_validate_err");
+      $("#phone3_val").removeClass("border_validate_err");
+      return false;
     };
+
+    if (fnValidate()) {
+      this.state.full_email;
+    }
   };
 
   const emailKeyPress = () => {};
@@ -94,7 +148,7 @@ export default function Register() {
       title: title,
       text: contents,
       icon: icon,
-      confirmButtonText: confirmButtonText,
+      confirmButtonText: confirmButtonText
     });
   };
 
