@@ -25,6 +25,8 @@
             , 'Y'
             , DATE_FORMAT(now(), '%Y%m%d%H%i%s')
             , CONCAT(#{is_Useremail1}, '@', #{is_Useremail2})
+            , DATE_FORMAT(now(), '%Y%m%d%H%i%s')
+            , CONCAT(#{is_Useremail1}, '@', #{is_Useremail2})
         )
     </insert>
 

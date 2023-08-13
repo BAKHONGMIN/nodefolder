@@ -136,14 +136,14 @@ export default function Register() {
       $("#phone1_val").removeClass("border_validate_err");
       $("#phone2_val").removeClass("border_validate_err");
       $("#phone3_val").removeClass("border_validate_err");
-      return false;
+      return true;
     };
 
     if (fnValidate()) {
       state.full_email = email_val_checker + "@" + email2_val_checker;
-      await axios
-        .post("/api/register?type=delicheck", {
-          is_Email: email2_val_checker + "@" + email2_val_checker,
+      axios
+        .post("/api/register?type=dplicheck", {
+          is_Email: email_val_checker + "@" + email2_val_checker,
         })
         .then((response) => {
           try {
@@ -186,7 +186,7 @@ export default function Register() {
           sweetalert("회원가입이 완료되었습니다.", "", "info", "닫기");
           history("/");
         } else {
-          sweetalert("작업중 오류가 발생하였습니다.", body, "error", "닫기");
+          sweetalert("작업중 오류가 발생하였습니다.(2)", body, "error", "닫기");
         }
       } catch (error) {
         sweetalert("작업중 오류가 발생하였습니다.(1)", error, "error", "닫기");
