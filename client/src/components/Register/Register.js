@@ -1,12 +1,12 @@
 /* eslint-disable no-useless-escape */
-import React, { useState } from "react";
+import React from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import $ from "jquery";
 import { useNavigate } from "react-router-dom";
 
 export default function Register() {
-  const [state, setState] = useState({});
+  let state = {};
   const history = useNavigate();
 
   const submitClick = async (type, e) => {
@@ -200,10 +200,6 @@ export default function Register() {
 
   const clickPress = (id) => {
     $("#" + id).removeClass("border_validate_err");
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
   };
 
   const mustNumber = (id) => {
