@@ -62,7 +62,7 @@ export default function LoginForm() {
 
           const timeout = setTimeout(() => {
             history("/SoftwareList");
-          }, 1500);
+          }, 1000);
 
           return () => clearTimeout(timeout);
         } else {
