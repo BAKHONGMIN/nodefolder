@@ -29,6 +29,8 @@ export default function LoginForm() {
 
         if (userid !== null && userid !== "") {
           sweetalert("로그인 되었습니다.", "", "info", "닫기");
+
+          // 쿠기 저장시간 설정
           const expires = new Date();
           expires.setMinutes(expires.getMinutes() + 60);
 
@@ -38,6 +40,7 @@ export default function LoginForm() {
               is_UserName: username,
             })
             .then((response) => {
+              console.log(response);
               cookie.save("userid", response.data.token1, {
                 path: "/",
                 expires,

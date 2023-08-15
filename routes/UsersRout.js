@@ -5,8 +5,8 @@ const bodyParser = require("body-parser");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
-let jwt = require("jsonwebtoken");
-let secretObj = require("../ignorefile/jwt");
+const jwt = require("jsonwebtoken");
+const secretObj = require("../ignorefile/jwt");
 
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: true }));
@@ -74,58 +74,56 @@ router.post("/", (req, res, next) => {
   } else if (type === "SessionState") {
     const userid = req.body.is_Email;
     const name = req.body.is_UserName;
-
     try {
-      let token1 = jwt.sign({ email: userid }, secretObj.secret, {
+      const token1 = jwt.sign({ email: userid }, secretObj.secret, {
         expiresIn: "60m",
       });
 
-      let token2 = jwt.sign(
-        { username: name },
-        secretObj.secret,
-        { expiresIn: "60m" },
-        res.send({ token1: token1, token2: token2 })
-      );
+      const token2 = jwt.sign({ username: name }, secretObj.secret, {
+        expiresIn: "60m",
+      });
+      res.send({ token1: token1, token2: token2 });
     } catch (error) {
       res.send(error);
-    }
-  } else if (type === "SessionConfirm") {
-    try {
-      let token1 = req.body.token1;
-      let token2 = req.body.token2;
-
-      if (
-        token1 !== undefined &&
-        token1 !== "" &&
-        token2 !== undefined &&
-        token2 !== ""
-      ) {
-        let decoded1 = jwt.verify(token1, secretObj.secret);
-        let decoded2 = jwt.verify(token2, secretObj.secret);
-        res.send({ token1: decoded1.email, token2: decoded2.username });
-      } else {
-        res.send({ token1: "", token2: "" });
-      }
-    } catch (error) {
-      res.send(error);
-    }
-  } else if (type === "SessionSignin") {
-    //쿠키 정보로 사용자 인증
-    try {
-      //MYSQL API 모듈(CRUD)
-      const dbconnect_Module1 = require("./dbconnect_Module1");
-
-      //MYSQL 쿼리 호출정보 입력
-      req.body.mapper = "UserMapper"; //mybatis xml 파일명
-      req.body.curd = "select"; //select, insert, update, delete 중에 입력
-      req.body.mapper_id = "selectSessionLoginCheck";
-
-      router.use("/", dbconnect_Module1);
-      next("route");
-    } catch (error) {
-      console.log("Module > dbconnect error : " + error);
     }
   }
+  // else if (type === "SessionConfirm") {
+  //   try {
+  //     let token1 = req.body.token1;
+  //     let token2 = req.body.token2;
+
+  //     if (
+  //       token1 !== undefined &&
+  //       token1 !== "" &&
+  //       token2 !== undefined &&
+  //       token2 !== ""
+  //     ) {
+  //       let decoded1 = jwt.verify(token1, secretObj.secret);
+  //       let decoded2 = jwt.verify(token2, secretObj.secret);
+  //       res.send({ token1: decoded1.email, token2: decoded2.username });
+  //     } else {
+  //       res.send({ token1: "", token2: "" });
+  //     }
+  //   } catch (error) {
+  //     res.send(error);
+  //   }
+  // } else if (type === "SessionSignin") {
+  //   //쿠키 정보로 사용자 인증
+  //   try {
+  //     //MYSQL API 모듈(CRUD)
+  //     const dbconnect_Module1 = require("./dbconnect_Module1");
+
+  //     //MYSQL 쿼리 호출정보 입력
+  //     req.body.mapper = "UserMapper"; //mybatis xml 파일명
+  //     req.body.curd = "select"; //select, insert, update, delete 중에 입력
+  //     req.body.mapper_id = "selectSessionLoginCheck";
+
+  //     router.use("/", dbconnect_Module1);
+  //     next("route");
+  //   } catch (error) {
+  //     console.log("Module > dbconnect error : " + error);
+  //   }
+  // }
 });
 
 module.exports = router;
