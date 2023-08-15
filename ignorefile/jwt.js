@@ -1,3 +1,3 @@
 let jwtObj = {};
-jwtObj.secret = "nodefolder";
+jwtObj.secret = "";
 module.exports = jwtObj;
