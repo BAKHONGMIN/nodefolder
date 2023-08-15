@@ -5,6 +5,9 @@ const bodyParser = require("body-parser");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
+let jwt = require("jsonwebtoken");
+let secretObj = require("../ignorefile/jwt");
+
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: true }));
 
