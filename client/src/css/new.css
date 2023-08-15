@@ -1699,6 +1699,8 @@ body {
 }
 .btn_confirm {
   text-align: right;
+  display: flex;
+  justify-content: right;
 }
 .btn_confirm a:last-child {
   margin-right: 0;
@@ -1721,7 +1723,7 @@ body {
   text-align: left;
   font-size: 16px;
   width: 100%;
-  display: flex;
+  /* display: flex; */
 }
 .re1_wrap .table_ty1 tr td input,
 .re1_wrap .table_ty1 tr td select {

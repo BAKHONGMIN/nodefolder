@@ -26,6 +26,7 @@ class App extends Component {
         <HeaderAdmin />
         <Routes>
           <Route exact path="/" element={<LoginForm />} />
+          <Route path="/login" element={<LoginForm />} />
           <Route path="/SoftwareList" element={<SoftwareList />} />
           <Route path="/SoftwareView/:swtcode" element={<SoftwareView />} />
           <Route path="/register" element={<Register />} />
