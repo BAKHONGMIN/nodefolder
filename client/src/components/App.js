@@ -58,9 +58,9 @@ export default function App() {
       .catch((response) => {
         noPermission();
       });
-
+    console.log(location);
     const noPermission = () => {
-      if (location.hash !== "#nocookie") {
+      if (location.hash !== "#nocookie" && location.pathname !== "/register") {
         remove_cookie();
         history("/login/#nocookie");
       }

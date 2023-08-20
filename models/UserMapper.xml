@@ -66,14 +66,14 @@
         AND userpassword = #{is_Token}
     </select>
 
-    <select id="selectLoginResetCheck">
-        SELECT
-        userpassword
-        FROM
-        react.react_user
-        WHERE useremail = #{is_Email}
-        AND username = #{is_Name}
-    </select>
+  <select id="selectLoginResetCheck">
+      SELECT 
+      userpassword
+      FROM
+      react.react_user
+      WHERE useremail = #{is_Email}
+      AND username = #{is_Name}
+  </select>
 
     <select id="selectEmailTokenCheck">
       SELECT 

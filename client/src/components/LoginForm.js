@@ -9,6 +9,15 @@ import cookie from "react-cookies";
 export default function LoginForm() {
   const history = useNavigate();
 
+  const sweetalert = (title, contents, icon, confirmButtonText) => {
+    Swal.fire({
+      title: title,
+      text: contents,
+      icon: icon,
+      confirmButtonText: confirmButtonText,
+    });
+  };
+
   const submitClick = async (e) => {
     const email_val = $("#email_val").val();
     const pwd_val = $("#pwd_val").val();
@@ -92,13 +101,13 @@ export default function LoginForm() {
     $(".signin").css("display", "table-cell");
   };
 
-  const pwdResetConfim = (e) => {
+  const pwdResetConfim = async (e) => {
     const reset_email = $("#reset_email_val").val();
     const reset_name = $("#reset_name_val").val();
     if (reset_email === "" || reset_name === "") {
       sweetalert("이메일과 성명을 확인해주세요.", "", "info", "닫기");
     } else {
-      axios
+      await axios
         .post("/api/LoginForm?type=pwreset", {
           is_Email: reset_email,
           is_Name: reset_name,
@@ -119,8 +128,8 @@ export default function LoginForm() {
     }
   };
 
-  const sendEmail = (email, subject, password, e) => {
-    axios
+  const sendEmail = async (email, subject, password, e) => {
+    await axios
       .post("/api/mail", {
         is_Email: email,
         is_Subject: subject,
@@ -128,7 +137,7 @@ export default function LoginForm() {
       })
       .then((response) => {
         if (response.data === "succ") {
-          this.sweetalert(
+          sweetalert(
             "입력하신 이메일로 비밀번호 \n" + "재설정 메일 보내드렸습니다.",
             "",
             "info",
@@ -143,14 +152,6 @@ export default function LoginForm() {
       });
   };
 
-  const sweetalert = (title, contents, icon, confirmButtonText) => {
-    Swal.fire({
-      title: title,
-      text: contents,
-      icon: icon,
-      confirmButtonText: confirmButtonText,
-    });
-  };
   return (
     <section className="main">
       <div className="m_login signin">
@@ -216,19 +217,18 @@ export default function LoginForm() {
               />
             </div>
             <div className="btn_confirm btn_confirm_m">
-              <div
+              <button
                 className="bt_ty bt_ty_m bt_ty1 cancel_ty1"
                 onClick={pwdResetCancleClick}
               >
                 취소
-              </div>
-              <a
-                href="#n"
+              </button>
+              <button
                 className="bt_ty bt_ty_m bt_ty2 submit_ty1"
                 onClick={pwdResetConfim}
               >
                 확인
-              </a>
+              </button>
             </div>
           </div>
         </div>
