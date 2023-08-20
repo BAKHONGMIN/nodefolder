@@ -5,6 +5,7 @@ const usersRouter = require("../routes/users");
 const swtoolRouter = require("../routes/SwtoolRout");
 const fileuploadRouter = require("../routes/UploadRout");
 const usersRouters = require("../routes/UsersRout");
+const MailRout = require("../routes/MailRout");
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.use(express.static("./uploads"));
 
 app.use("/api/register", usersRouters);
 app.use("/api/LoginForm", usersRouters);
+app.use("/api/mail", MailRout);
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`Listening on port ${port}`));

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import cookie from "react-cookies";
 import $ from "jquery";
 import axios from "axios";
@@ -7,6 +7,7 @@ import Swal from "sweetalert2";
 
 export default function Header() {
   const [usernm, setUserNm] = useState("");
+  const history = useNavigate();
 
   useEffect(() => {
     const cookie_userid = cookie.load("userid");
@@ -27,22 +28,22 @@ export default function Header() {
       $(".menulist").hide();
       $(".hd_top").hide();
     }
-    callSessionInfoApi();
-  }, []);
 
-  const callSessionInfoApi = async () => {
-    await axios
-      .post("/api/LoginForm?type=SessionConfirm", {
-        token1: cookie.load("userid"),
-        token2: cookie.load("username"),
-      })
-      .then((response) => {
-        setUserNm(response.data.token2);
-      })
-      .catch((error) => {
-        sweetalert("작업중 오류가 발생하였습니다.", error, "error", "닫기");
-      });
-  };
+    const callSessionInfoApi = () => {
+      axios
+        .post("/api/LoginForm?type=SessionConfirm", {
+          token1: cookie.load("userid"),
+          token2: cookie.load("username"),
+        })
+        .then((response) => {
+          setUserNm(response.data.token2);
+        })
+        .catch((error) => {
+          sweetalert("작업중 오류가 발생하였습니다.", error, "error", "닫기");
+        });
+    };
+    callSessionInfoApi();
+  });
 
   const sweetalert = (title, contents, icon, confirmButtonText) => {
     Swal.fire({
@@ -53,23 +54,54 @@ export default function Header() {
     });
   };
 
+  const myInfoHover = () => {
+    $(".hd_left > li > .box1").stop().fadeIn(400);
+  };
+
+  const myInfoLeave = () => {
+    $(".hd_left > li > .box1").stop().fadeOut(400);
+  };
+
+  const logout = async () => {
+    cookie.remove("userid", { path: "/" });
+    cookie.remove("username", { path: "/" });
+    cookie.remove("userpassword", { path: "/" });
+    history("/login");
+  };
+
   return (
     <header className="gnb_box">
       <div className="hd_top">
         <div className="top_wrap ct1 af">
           <ul className="hd_left af">
-            <li className="my1">
+            <li
+              className="my1"
+              onMouseEnter={myInfoHover}
+              onMouseLeave={myInfoLeave}
+            >
               <b>내정보</b>
+              <div className="box0 box1">
+                <ul>
+                  <li>
+                    <a href="#!">내 정보 수정</a>
+                  </li>
+                  <li>
+                    <a href="#!" onClick={logout}>
+                      로그아웃
+                    </a>
+                  </li>
+                </ul>
+              </div>
             </li>
             <li className="my2">
               <b>
-                <span>1</span>알림
+                <span>0</span>알림
               </b>
             </li>
           </ul>
           <div className="hd_right">
             <p>
-              <span>'홍길동'</span>님 반갑습니다.
+              <span>{usernm}</span>님 반갑습니다.
             </p>
           </div>
         </div>
