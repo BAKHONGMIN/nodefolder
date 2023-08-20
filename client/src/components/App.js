@@ -22,6 +22,8 @@ import SoftwareView from "./SoftwareToolsManage/SoftwareView";
 
 import Register from "./Register/Register";
 
+import PwChangeForm from "./PwChangeForm";
+
 export default function App() {
   const [state, setState] = useState({});
   const location = useLocation();
@@ -82,6 +84,7 @@ export default function App() {
         <Route path="/SoftwareList" element={<SoftwareList />} />
         <Route path="/SoftwareView/:swtcode" element={<SoftwareView />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/PwChangeForm/:email/:token" element={<PwChangeForm />} />
       </Routes>
       <Footer />
     </div>
