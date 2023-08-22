@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import cookie from "react-cookies";
@@ -60,9 +61,12 @@ export default function App() {
       .catch((response) => {
         noPermission();
       });
-    console.log(location);
     const noPermission = () => {
-      if (location.hash !== "#nocookie" && location.pathname !== "/register") {
+      if (
+        location.hash !== "#nocookie" &&
+        location.pathname !== "/register" &&
+        location.pathname.includes("/PwChangeForm") !== true
+      ) {
         remove_cookie();
         history("/login/#nocookie");
       }

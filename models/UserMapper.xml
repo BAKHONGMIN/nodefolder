@@ -93,7 +93,7 @@
     <update id="updatePwdUser">
       UPDATE react.react_user
       SET
-      userpassword = #{is_Password}
-		WHERE useremail = #{is_Useremail}
+        userpassword = #{is_Password}
+	  WHERE useremail = #{is_Useremail}
     </update>
 </mapper>
