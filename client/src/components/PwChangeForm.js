@@ -108,7 +108,6 @@ export default function PwChangeForm() {
           body: Json_form,
         });
         const body = await response.text();
-        console.log(body);
         if (body === "succ") {
           sweetalertSucc("비밀번호 수정이 완료되었습니다.", false);
           const timer = setTimeout(() => {
